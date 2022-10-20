@@ -11,6 +11,65 @@ Desarrollado por los estudiantes:
 
 ## Tareas
 
+## Subsistema de lectura - Joseph Jimenez
+
+- Adquirir operandos "A" y "B" de 8 bits
+- Interpretar operandos "A" y "B" complemento a 2
+    - Desplegar en un LED próximo
+al switch para indicar como fue leído
+- Captura y sincroniza con el sistema (4 FF cascada/switch)
+- Boton de espera "push button"
+    - Mantiene pulsado 500ms e inicia multiplicacion
+    - No inicia otra operacion hasta volver al estado inicial 
+
+## Subsistema de cálculo de multiplicación- Todos
+
+- Recibe operandos "A" y "B" de subsistema de Lectura
+- Habilidad bandera "Valid" como indicador del subsistema de Lectura para iniciar la operacion multiplicacion
+- Aplicar algoritmo de Boot Iterativo:
+    - Carga estado de la suma parcial Inicial y acarreo = 0
+    - Obtiene Primer Dato de los Operandos A y B
+    - Iterativamente compara los operandos A y B
+      - Si es 0 no pasa nada
+      - Si es 1 se suma el numero a la suma Parcial
+    - Desplazada al segundo Dato de los Operandos A y B
+    - Recorre todos los los bits de cada operando
+    - La suma Parcial obtiene la suma total
+
+## Subsistema conversión de binario a representación BCD - Ignacio Grane
+
+- Registra, recibe resultado de subsistema de cálculo de multiplicación (16 bits con signo)
+- Conversion BCD(5 dígitos en BCD + 1 de signo para el siguiente bloque):
+  - Conversión de manera combinacional
+  - Conversión de manera secuencial
+- Habilitar bandera "Done" indica cuando está lista la conversión para registrar
+
+## Subsistema de despliegue en display de 7 segmentos - Sebastian Moya
+
+- Recibe resultado de subsistema conversión de binario a representación BCD
+- Desplegar en dispositivos 7 Segmentos:
+    - Despliega en los dispositivos 7 segmentos disponibles en la placa
+    - Forma decimal, incluyendo el signo
+    - Utilizar al menos 6 dígitos disponibles del 7 segmentos
+    - Tasa de refresco adecuada para una visualización cómoda
+    
+## Subsistema Unidad de Control- Todos
+
+- Determinar variables de Control
+- Determinar Memoria para guardar y determinar siguiente Direccion
+    
+# Cronograma Establecido para completar las Tareas
+
+- 20 de Octubre - Inicio de programacion submodulos individuales
+- 23 de Octubre - Inicio de submodulo de control y de multiplicacion
+- 24 de Octubre - Union de unidad de Control y subsistema de multiplicacion
+- 27 de Octubre - Actualizacion de estado de submodulos
+- 29 de Octubre - Finalizar Submodulos
+- 1 de Noviembre - Listas las simulaciones
+- 3 de Noviembre - ENTREGA Avance
+- 7 de Noviembre - Terminar Detalles
+- 10 de Noviembre -  Defensa del proyecto 
+
 ## Reglas
 - La comunicación será por la plataforma WhatsApp, mediante el grupo creado para este fin.
 - Las reuniones serán por la plataforma Zoom, cuando se considere pertinente. De preferencia serán en modalidad presencial.
@@ -32,7 +91,6 @@ Desarrollado por los estudiantes:
 
 
 ### Diagrama de Bloques Subsistema de lectura
-
 
 
 
