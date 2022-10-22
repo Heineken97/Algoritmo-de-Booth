@@ -15,8 +15,7 @@ Desarrollado por los estudiantes:
 
 - Adquirir operandos "A" y "B" de 8 bits
 - Interpretar operandos "A" y "B" complemento a 2
-    - Desplegar en un LED próximo
-al switch para indicar como fue leído
+    - Desplegar en un LED próximo al switch para indicar como fue leído
 - Captura y sincroniza con el sistema (4 FF cascada/switch)
 - Boton de espera "push button"
     - Mantiene pulsado 500ms e inicia multiplicacion
@@ -89,10 +88,16 @@ al switch para indicar como fue leído
 
 ### Funcionamiento Fundamental
 
+En este subsistema se adquiere los operando de 8 bits A y B, estos se proceden a hacer un complemento a 2 con signo, el cual se ve reflejado en los LEDS,
+Estos operando son enviados al circuito antirebote que corresponde a 4 Flip Flops D en cascada, en donde se sincroniza con el sistema esperando la señal de pulsacion de 500ms para pasar iniciar la operacion aritmetica.
 
 ### Diagrama de Bloques Subsistema de lectura
 
+![Image text](https://github.com/Heineken97/Algoritmo-de-Booth/blob/main/imagenes/Subsistema1_Completo.png)
 
+### Diagrama de Bloques deñ circuito antirebote en subsistema 1
+
+![Image text](https://github.com/Heineken97/Algoritmo-de-Booth/blob/main/imagenes/Subsistema1_CircuitoAntiRebote.png)
 
 ## Subsistema de cálculo de multiplicación
 
