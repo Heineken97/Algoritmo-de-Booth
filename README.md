@@ -127,7 +127,8 @@ Estos operando son enviados al circuito antirebote que corresponde a 4 Flip Flop
 
 
 ## Diagramas de estado de todas las FSM diseñadas
-
+### Diagramas de Estado de la maquina de Moore para la unidad microprogramada
+![Image text](https://github.com/Heineken97/Algoritmo-de-Booth/blob/main/imagenes/MaquinaDeEstadosMoore.png)
 
 ## Ejemplo y análisis de una simulación funcional del sistema completo
 
