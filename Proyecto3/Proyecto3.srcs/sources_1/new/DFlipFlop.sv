@@ -19,10 +19,19 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-module DFlipFlop(input DFF_CLOCK, clock_enable, D, output reg Q=0);
-    always@(posedge DFF_CLOCK)
+module DFlipFlop(input [7:0]DataA, [7:0]DataB, Clk, Sync_reset,output reg [7:0]QA, [7:0]QB);
+    always@(posedge Clk)
     begin
-        if(clock_enable)
-            Q<=D;
+        if(Sync_reset == 1'b1)
+        begin
+            QA <= 7'b0;
+            QB <= 7'b0;
+        end
+        else
+        begin
+            QA <= DataA;
+            QB <= DataB;
+        end
+        
     end
 endmodule

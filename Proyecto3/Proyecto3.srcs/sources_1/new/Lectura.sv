@@ -20,32 +20,27 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module Lectura(input pushButton,input [7:0]a,input [7:0]b,output [7:0]oa,output [7:0]ob);
+module Lectura(input pushButton,reset ,[7:0]a,[7:0]b,output reg[7:0]oa,reg[7:0]ob);
     wire clkOut;
     wire enable;
     reg [7:0] A;
     reg [7:0] B;
-    begin
-        Reloj_Gen U1(pushButton,clkOut);
-        //Complemento
-        if(a[7] == 1)
-            assign A = ~a + 1;
-        else
-            assign A = a;
-        if(b[7] == 1)
-            assign B = ~b + 1;
-        else
-            assign B = b;
-            
-        //LEDS
-        Leds U2(A,B);
-        //Antirebote
-        Antirebote U3(pushButton,clkOut,enable);
-        
-        if(enable == 1)
-            assign oa= A;
-            
-            assign ob= B;
-        
-    end
+
+    Reloj_Gen U1(pushButton,clkOut);
+    
+    //Complemento    
+    assign A = (a[7]==0)? a[6:0]: ~a[6:0] + 1'b1;
+    assign B = (b[7]==0)? b[6:0]: ~b[6:0] + 1'b1;
+    //LEDS
+    Leds U2(A,B,clkOut);
+    //Antirebote
+    Antirebote U3(pushButton,reset,A,B,clkOut,enable);
+    //Asignacion
+    
+    assign oa = (enable==1)? {A} : {8'b0};
+    assign ob = (enable==1)? {B} : {8'b0};
+    
+    assign oa= A;
+
+    assign ob= B;
 endmodule

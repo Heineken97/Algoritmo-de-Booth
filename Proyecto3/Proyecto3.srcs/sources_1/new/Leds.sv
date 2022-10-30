@@ -10,7 +10,7 @@
 // Target Devices:  Nexys Ay - 100T
 // Tool Versions: 
 // Description: 
-// Cuando se ha obtenido el complemento se visualiza en los leds
+// Se encarga de recibir las entradas en formato de complemento y pasa a visualizar en leds
 // Dependencies: 
 // 
 // Revision:
@@ -27,14 +27,20 @@ module Leds( input wire [7:0] compl1, input wire [7:0] compl2, output reg[13:0] 
     always @(posedge clk)
     begin
         if(enable)
+        begin
             leds[14:8] <= compl1;
-            leds[0:7] <= compl2;
+            leds[7:0] <= compl2;
+        end
     end
     always @*
     begin
         if(counter == 26'd50000000)
+        begin
             counter = 26'd0;
+        end
         else
+        begin
             counter = counter + 26'd1;
+        end
     end
 endmodule

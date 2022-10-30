@@ -21,14 +21,20 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module Antirebote( input buttonPress, input clk, output result);
-    wire clkOUT;
-    wire Q0,Q1,Q2,Q3,Cout;
-    DFlipFlop d0(clkOUT,buttonPress,Q0);
-    DFlipFlop d1(clkOUT,Q0,Q1);
-    DFlipFlop d2(clkOUT,Q1,Q2);
-    DFlipFlop d3(clkOUT,Q2,Q3);
+module Antirebote( input buttonPress, reset, A, B , input clk, output result);
+
+    wire Q0A,Q1A,Q2A,Q3A,Q0B,Q1B,Q2B,Q3B;
+    reg CoutA,CoutB;
     
-    assign result = Q0 & Q1 & Q2 & Q3;
+    DFlipFlop d0(A,B,clk,Q0A,Q0B);
+    DFlipFlop d1(Q0A,Q0B,clk,Q1A,Q1B);
+    DFlipFlop d2(Q1A,Q1B,clk,Q2A,Q2B);
+    DFlipFlop d3(Q2A,Q2B,clk,Q3A,Q3B);
+    
+    assign CoutA = Q3A;
+    
+    assign CoutB = Q3B;
+    
+    assign result = 1'b1;
 
 endmodule
