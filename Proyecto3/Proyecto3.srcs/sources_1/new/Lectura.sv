@@ -10,7 +10,8 @@
 // Target Devices: Nexys A7 - 100T
 // Tool Versions: 
 // Description: 
-// 
+// Subsistema de Lectura que se le proveen las entradas, se pasan a complemento y este se visualiza en leds
+// Posee un sistema antirebote que indica el inicio del subsistema de multiplicacion
 // Dependencies: 
 // 
 // Revision:
@@ -18,7 +19,6 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-
 
 module Lectura(input pushButton,reset ,[7:0]a,[7:0]b,output reg[7:0]oa,reg[7:0]ob);
     wire clkOut;
@@ -31,16 +31,14 @@ module Lectura(input pushButton,reset ,[7:0]a,[7:0]b,output reg[7:0]oa,reg[7:0]o
     //Complemento    
     assign A = (a[7]==0)? a[6:0]: ~a[6:0] + 1'b1;
     assign B = (b[7]==0)? b[6:0]: ~b[6:0] + 1'b1;
+    
     //LEDS
     Leds U2(A,B,clkOut);
+    
     //Antirebote
     Antirebote U3(pushButton,reset,A,B,clkOut,enable);
-    //Asignacion
     
+    //Asignacion
     assign oa = (enable==1)? {A} : {8'b0};
     assign ob = (enable==1)? {B} : {8'b0};
-    
-    assign oa= A;
-
-    assign ob= B;
 endmodule
