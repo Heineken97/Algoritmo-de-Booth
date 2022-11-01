@@ -7,7 +7,7 @@
 // Design Name: Complemento en leds
 // Module Name: Leds
 // Project Name: Proyecto3
-// Target Devices:  Nexys Ay - 100T
+// Target Devices: Nexys Ay - 100T
 // Tool Versions: 
 // Description: 
 // Se encarga de recibir las entradas en formato de complemento y pasa a visualizar en leds
@@ -19,17 +19,15 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-
-module Leds( input wire [7:0] compl1, input wire [7:0] compl2, output reg[13:0] leds, input clk);
+module Leds( input wire [7:0] a, input wire [7:0] b, output reg[13:0] leds, input clk);
     reg [25:0] counter = 26'd0;
     reg enable = 0;
-
     always @(posedge clk)
     begin
         if(enable)
         begin
-            leds[14:8] <= compl1;
-            leds[7:0] <= compl2;
+            leds[14:8] <= a;
+            leds[7:0] <= b;
         end
     end
     always @*

@@ -10,35 +10,60 @@
 // Target Devices: Nexys A7 - 100T
 // Tool Versions: 
 // Description: 
-// Subsistema de Lectura que se le proveen las entradas, se pasan a complemento y este se visualiza en leds
-// Posee un sistema antirebote que indica el inicio del subsistema de multiplicacion
+// Subsistema de Lectura espera boton de espera para enviar los datos al subsistema de multiplicacion
+// Se activan los leds que corresponde a
 // Dependencies: 
 // 
 // Revision:
-// Revision 0.01 - File Created
+// Revision 0.02 - Segunda Version
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-module Lectura(input pushButton,reset ,[7:0]a,[7:0]b,output reg[7:0]oa,reg[7:0]ob);
-    wire clkOut;
-    wire enable;
-    reg [7:0] A;
-    reg [7:0] B;
+module Lectura(input pushButton,reset ,reg[7:0]a,reg[7:0]b,output reg[7:0]oa,reg[7:0]ob);
+    wire clk,Q0A[7:0],Q1A[7:0],Q2A[7:0],Q3A[7:0],Q0B[7:0],Q1B[7:0],Q2B[7:0],Q3B[7:0];
+    reg enable = 0;
+    reg [25:0]counter = 0;
 
-    Reloj_Gen U1(pushButton,clkOut);
-    
-    //Complemento    
-    assign A = (a[7]==0)? a[6:0]: ~a[6:0] + 1'b1;
-    assign B = (b[7]==0)? b[6:0]: ~b[6:0] + 1'b1;
-    
+    // Contador verifica 500ms
+    always@(pushButton == 1'b1 )
+    begin
+        if(counter == 26'd50000000)
+            begin
+                counter = 26'd0;
+            end
+        else
+            begin
+                counter = counter + 26'd1;
+            end
+        enable = (counter == 26'd50000000)?1'b1:1'b0;
+    end
+
     //LEDS
-    Leds U2(A,B,clkOut);
-    
-    //Antirebote
-    Antirebote U3(pushButton,reset,A,B,clkOut,enable);
-    
-    //Asignacion
-    assign oa = (enable==1)? {A} : {8'b0};
-    assign ob = (enable==1)? {B} : {8'b0};
+    Leds U2(a,b,clk);
+    //Antirebote A
+    DFlipFlop d0A(.clk(clk),.reset(reset),.data(a),.Q(Q0A));
+    DFlipFlop d1A(.clk(clk),.reset(reset),.data(Q0A),.Q(Q1A));
+    DFlipFlop d2A(.clk(clk),.reset(reset),.data(Q1A),.Q(Q2A));
+    DFlipFlop d3A(.clk(clk),.reset(reset),.data(Q2A),.Q(Q3A));
+    //Antirebote B
+    DFlipFlop d0B(.clk(clk),.reset(reset),.data(b),.Q(Q0B));
+    DFlipFlop d1B(.clk(clk),.reset(reset),.data(Q0B),.Q(Q1B));
+    DFlipFlop d2B(.clk(clk),.reset(reset),.data(Q1B),.Q(Q2B));
+    DFlipFlop d3B(.clk(clk),.reset(reset),.data(Q2B),.Q(Q3B));
+    //Si cumple con el tiempo presionado se envia
+    always @(posedge clk)
+    begin
+        if(enable == 1'b1)
+            begin
+                assign oa = d0A & d1A & d2A & d3A;
+                assign ob = d0B & d1B & d2B & d3B;
+            end
+        else
+            begin
+                assign oa = 7'b0;
+                assign ob = 7'b0;
+            end
+    end
+
 endmodule
