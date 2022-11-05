@@ -20,6 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 module Init(input pushButton,reset ,logic[7:0]a,logic[7:0]b,logic[3:0]button,output logic[7:0]out, logic [3:0]anode, logic [7:0]cathode );
+    logic [7:0] oa,ob;
     logic enable= 1'b0;
     logic clk ;
     logic refreshclock;
@@ -31,7 +32,7 @@ module Init(input pushButton,reset ,logic[7:0]a,logic[7:0]b,logic[3:0]button,out
     logic [1:0] refresh_counter;
     logic [3:0] ONE_DIGIT;
     
-    Lectura L0(pushButton, reset,a,b,enable);
+    Lectura L0(pushButton, reset,a,b,enable,oa,ob);
     begin
         Multiplicador Multiplicador(clk,reset,a,b,mult_control,Q_LSB,Y);
         ClockDivider Refreshclock_generator(.clk(clk),.divided_clk(refreshclock));
