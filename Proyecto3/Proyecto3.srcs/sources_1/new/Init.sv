@@ -18,21 +18,23 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
+interface ControlSignals;
+logic enable;
+endinterface 
 
 module Init(input pushButton,reset ,logic[7:0]a,logic[7:0]b,logic[3:0]button,output logic[7:0]out, logic [3:0]anode, logic [7:0]cathode );
-    logic [7:0] oa,ob;
-    logic enable= 1'b0;
+    ControlSignals control();
+    logic mult_control;
     logic clk ;
     logic refreshclock;
     logic [2:0] Q_LSB;
     logic [15:0] Y;
-    //multi_control_t mult_control;
-    logic mult_control;
-
     logic [1:0] refresh_counter;
     logic [3:0] ONE_DIGIT;
+    logic [7:0] oa,ob;
     
-    Lectura L0(pushButton, reset,a,b,enable,oa,ob);
+    assign control.enable = 1'b0;
+    Lectura L0(pushButton, reset,a,b,control.enable,oa,ob);
     begin
         Multiplicador Multiplicador(clk,reset,a,b,mult_control,Q_LSB,Y);
         ClockDivider Refreshclock_generator(.clk(clk),.divided_clk(refreshclock));

@@ -46,6 +46,7 @@ module Lectura(input pushButton,reset ,a,b,output logic enable,oa,ob);
     end
     //LEDS
     Leds U2(a,b,leds,clk);
+    //Antirebote
     always @(posedge clk)
     begin
         FFA = {a,FFA[3],FFA[2],FFA[1]};

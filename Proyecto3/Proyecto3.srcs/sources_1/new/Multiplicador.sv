@@ -33,12 +33,9 @@ module Multiplicador#(
     input logic rst,
     input logic [N-1:0]A,
     input logic [N-1:0]B,
-    input logic mult_controlt,
-    //input multi_control_t mult_control,
+    input multi_control_t mult_control,
     output logic [2:0] Q_LSB,
     output logic [2*N-1:0] Y);
-    
-    multi_control_t mult_control;
     
     logic [N-1:0] M;
     logic [N-1:0] adder_sub_out;
@@ -46,7 +43,6 @@ module Multiplicador#(
     logic [N-1:0] HQ;
     logic [N-1:0] LQ;
     logic Q_1;
-
     //reg_m
     always_ff@(posedge clk,rst) begin
         if(rst)
