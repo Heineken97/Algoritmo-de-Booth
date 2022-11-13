@@ -34,7 +34,8 @@ module Init(input pushButton,reset ,logic[7:0]a,logic[7:0]b,logic[3:0]button,out
     logic [7:0] oa,ob;
     
     assign control.enable = 1'b0;
-    Lectura L0(pushButton, reset,a,b,control.enable,oa,ob);
+    Lectura L0(pushButton,a,b,control.enable,oa,ob);
+    
     begin
         Multiplicador Multiplicador(clk,reset,a,b,mult_control,Q_LSB,Y);
         ClockDivider Refreshclock_generator(.clk(clk),.divided_clk(refreshclock));
