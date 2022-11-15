@@ -1,16 +1,16 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: TEC
-// Engineer: Joseph David Jimenez Zuñiga 
+// Company: 
+// Engineer: Joseph David Jimenez Zuñiga
 // 
-// Create Date: 11/13/2022 12:58:25 PM
-// Design Name: Prueba para el modulo de Lectura
-// Module Name: LecturaTestbench
+// Create Date: 11/14/2022 09:13:06 PM
+// Design Name: Prueba para el modulo de LEDS
+// Module Name: LedsTestbench
 // Project Name: Proyecto 3
-// Target Devices: Nexys A7 - 100T
+// Target Devices: Nexys A7 - 100 T
 // Tool Versions: 
 // Description: 
-// Testbench para probar el submodulo de Lectura
+// Testbench para el submodulo de Leds
 // Dependencies: 
 // 
 // Revision:
@@ -19,20 +19,13 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-module LecturaTestbench;
-    logic pushButton,enable;
+module LedsTestbench;
     logic [7:0] a,b;
-    logic [7:0] oa,ob;
-    Lectura U1(pushButton,a,b,enable,oa,ob);
+    logic [13:0] leds;
+    Leds(a,b,leds);
     initial begin
-    pushButton = 1'b0;
-    enable = 1'b0;
-    #500
     a = 8'b1;
     b = 8'b0000011;
-    pushButton = 1'b1;
-    #500
-    pushButton = 1'b0;
     #500
     a[0]=0;
     a[1]=0;
@@ -47,8 +40,5 @@ module LecturaTestbench;
     #500
     a = 8'b1;
     b = 8'b0000011;
-    pushButton = 1'b1;
-    #500
-    pushButton = 1'b0;
     end
 endmodule
