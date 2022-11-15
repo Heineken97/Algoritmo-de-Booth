@@ -11,7 +11,7 @@
 // Tool Versions: 
 // Description: 
 // Subsistema de Lectura espera boton de espera para enviar los datos al subsistema de multiplicacion
-// Se activan los leds que corresponde a
+// Se activan los leds que corresponde a y posee un sistema antirebote con FF para sincronizar el dato de entrada
 // Dependencies: 
 // 
 // Revision:

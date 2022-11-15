@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: TEC
-// Engineer: 
+// Engineer: Joseph David Jimenez Zuñiga
 // 
 // Create Date: 10/23/2022 10:54:26 AM
 // Design Name: Multiplicador sin control
@@ -10,7 +10,7 @@
 // Target Devices: NexysA7-100T
 // Tool Versions: 
 // Description: 
-// 
+// Corresponde a la Ruta de Datos del algoritmo de booth
 // Dependencies: 
 // 
 // Revision:
