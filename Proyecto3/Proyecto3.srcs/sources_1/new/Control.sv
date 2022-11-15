@@ -22,31 +22,30 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-module Control(input logic clk,Q1, Q0, output logic add,sub,load,shift,dc);
-    logic [2:0]state;
-    parameter S0 = 3'b000, S1 = 3'b001, S2 = 3'b010, S3 = 3'b011, S4 = 3'b100;
-    always @(posedge clk)
+module Control(input logic valid,reset,clk,[7:0]Q_1,[2:0]Q0, output logic load_A,load_B,load_add,shift_HQ_LQ_Q_1,add_sub);
+    typedef enum logic [1:0] {S0,S1,S2} statetype;
+    statetype [1:0] state,nextState;
+    
+    always_ff @(posedge clk,posedge reset)
+        if(reset) state<= S0;
+        else state <= nextState;
+        
+    always_comb 
+    case(state)
+    S0: nextState = S1;
+    S1: nextState = S2;
+    S2: nextState = S0;
+    default: nextState = S0;
+    endcase
+    
+    always @(valid)
     begin
         case(state)
-            S0: if(Q0 != 0) state<= S1;
-            S1: state <= S2;
-            S2: state <= S3;
-            S3: state <= S4;
-            S4: state <= S0;
-            default: state<= S0;
+            S0: begin load_A=1;load_B=1;load_add=1;shift_HQ_LQ_Q_1=0;add_sub=0; end
+            S1: begin load_A=0;load_B=0;load_add=0;shift_HQ_LQ_Q_1=0;add_sub=1; end
+            S2: begin load_A=0;load_B=0;load_add=0;shift_HQ_LQ_Q_1=1;add_sub=0; end
+            default: begin load_A=0;load_B=0;load_add=0;shift_HQ_LQ_Q_1=0;add_sub=0; end
         endcase
     end
-    always @(state)
-    begin
-        case(state)
-            S0: begin #1 load=1;add=0;sub=0;shift=0;dc=0; end
-            S1: begin #1 load=0;add=1;sub=0;shift=0;dc=0; end
-            S2: begin #1 load=0;add=0;sub=1;shift=0;dc=0; end
-            S3: begin #1 load=0;add=0;sub=0;shift=1;dc=0; end
-            S4: begin #1 load=0;add=0;sub=0;shift=0;dc=1; end
-            default: begin #1 load=0;add=0;sub=0;shift=0;dc=0; end
-        endcase
-    end
-
-
+    
 endmodule

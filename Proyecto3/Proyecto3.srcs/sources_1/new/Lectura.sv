@@ -35,13 +35,13 @@ module Lectura(input pushButton ,a,b,output logic enable,oa,ob);
         begin
             if(counter == 26'd50000000)
                 begin
-                    counter = 26'd0;
+                    counter <= 26'd0;
                 end
             else
                 begin
-                    counter = counter + 26'd1;
+                    counter <= counter + 26'd1;
                 end
-            enable = (counter == 26'd50000000)?1'b1:1'b0;
+            enable <= (counter == 26'd50000000)?1'b1:1'b0;
         end
     end
     //LEDS
@@ -49,14 +49,14 @@ module Lectura(input pushButton ,a,b,output logic enable,oa,ob);
     //Antirebote
     always @(posedge clk)
     begin
-        FFA = {a,FFA[3],FFA[2],FFA[1]};
-        FFB = {b,FFB[3],FFB[2],FFB[1]};
+        FFA <= {a,FFA[3],FFA[2],FFA[1]};
+        FFB <= {b,FFB[3],FFB[2],FFB[1]};
     end
     
     always_comb
     begin
-        oa = FFA[3] & (~FFA[2]) & (~FFA[1]) & (~FFA[0]);
-        ob = FFB[3] & (~FFB[2]) & (~FFB[1]) & (~FFB[0]);
+        oa <= FFA[3] & (~FFA[2]) & (~FFA[1]) & (~FFA[0]);
+        ob <= FFB[3] & (~FFB[2]) & (~FFB[1]) & (~FFB[0]);
     end
 endmodule
 

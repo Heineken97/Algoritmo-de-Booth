@@ -22,13 +22,13 @@
 
 module Leds(input logic [7:0] a, input logic [7:0] b, output logic[13:0] leds, input logic clk);
     logic [25:0] counter = 26'd0;
-    logic enable = 1;
+    logic valid = 1;
     always @(posedge clk)
     begin
-        if(enable)
+        if(valid)
         begin
-            leds[13:8] <= a;
-            leds[7:0] <= b;
+            assign leds[13:8] = a;
+            assign leds[7:0] = b;
         end
     end
     always @*
@@ -41,6 +41,6 @@ module Leds(input logic [7:0] a, input logic [7:0] b, output logic[13:0] leds, i
             begin
                 counter = counter + 26'd1;
             end
-        enable = (counter == 26'd50000000)? 1'b1:1'b0;
+        assign valid = (counter == 26'd50000000)? 1'b1:1'b0;
     end
 endmodule

@@ -19,16 +19,16 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-interface ControlSignals;
-    logic load;
-    logic add;
-    logic sub;
-    logic shift;
-    logic dc;
-endinterface
+typedef struct packed {
+    logic load_A;
+    logic load_B;
+    logic load_add;
+    logic shift_HQ_LQ_Q_1;
+    logic add_sub;
+}ControlSignals;
 
 module Init(input pushButton,reset ,logic[7:0]a,logic[7:0]b,logic[3:0]button,output logic[7:0]out, logic [3:0]anode, logic [7:0]cathode );
-    ControlSignals controlsigns();
+    ControlSignals controlsigns;
     logic enable;
     logic clk ;
     logic refreshclock;
@@ -38,14 +38,13 @@ module Init(input pushButton,reset ,logic[7:0]a,logic[7:0]b,logic[3:0]button,out
     logic [3:0] ONE_DIGIT;
     logic [7:0] oa;
     logic [7:0] ob;
-    
-    Lectura L0(pushButton,a,b,enable,oa,ob);
-    if(enable)
-    begin
-         Control Controlador(clk,Y, Q_LSB, controlsigns.add,controlsigns.sub,controlsigns.load,controlsigns.shift,controlsigns.dc);
-         Multiplicador Multiplicador(clk,reset,oa,ob,ControlSignals,Q_LSB,Y);
-    end
 
+    Lectura L0(.pushButton(pushButton),.a(a),.b(b),.enable(enable),.oa(oa),.ob(ob));
+    
+    Multiplicador Multiplicador(.clk(clk),.rst(reset),.A(oa),.B(ob),.mult_control(controlsigns),.Q_LSB(Q_LSB),.Y(Y));
+    
+    Control Controlador(.valid(enable),.reset(reset),.clk(clk),.Q_1(Y),.Q0(Q_LSB),.load_A(controlsigns.load_A),.load_B(controlsigns.load_B),.load_add(controlsigns.load_add),.shift_HQ_LQ_Q_1(controlsigns.shift_HQ_LQ_Q_1),.add_sub(controlsigns.add_sub));
+    
     ClockDivider Refreshclock_generator(.clk(clk),.divided_clk(refreshclock));
 
     RefreshCounter Refreshcounter_wrapper(.refresh_clock(refreshclock),.refresh_counter(refresh_counter));
@@ -55,5 +54,5 @@ module Init(input pushButton,reset ,logic[7:0]a,logic[7:0]b,logic[3:0]button,out
     BCDControl BCD_Control_wrapper(.digit1(out[3:0]),.digit2(out[7:4]),.digit3(button[3:0]),.digit4(button[3:0]),.refresh_counter(refresh_counter),.ONE_DIGIT(ONE_DIGIT));
 
     BCDCathode BCD_to_Cathodes_Wrapper(.digit(ONE_DIGIT),.cathode(cathode));
-
+    
 endmodule
