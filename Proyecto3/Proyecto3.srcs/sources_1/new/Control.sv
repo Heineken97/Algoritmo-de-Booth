@@ -29,7 +29,7 @@ module Control(input logic done,reset,clk,[2:0]Q, output logic load_A,load_B,loa
     always_ff @(posedge clk,posedge reset)
         if(reset) state<= S0;
         else state <= nextState;
-        
+     
     always_comb 
     case(state)
     S0: nextState = S1;
@@ -40,14 +40,14 @@ module Control(input logic done,reset,clk,[2:0]Q, output logic load_A,load_B,loa
     default: nextState = S0;
     endcase
 
-    always @(*)
+    always @(posedge clk)
     begin
         case(state)
-            S0: #10 begin load_A = 1;load_B = 1;load_add = 1;shift_HQ_LQ_Q_1 = 1'bx;add_sub = 1'bx;dc = 1'bx; end
-            S1: #5 if(Q[0] == Q[1]) begin load_A = 1'bx;load_B = 1'bx;load_add = 1'bx;shift_HQ_LQ_Q_1 = 1;add_sub = 1'bx;dc = 1; end
-            S2: #5 if(Q == 3'b010) begin load_A = 1'bx;load_B = 1'bx;load_add = 1'bx;shift_HQ_LQ_Q_1 = 1'bx;add_sub = 0;dc = 1; end
-            S3: #5 if(Q == 3'b001) begin load_A = 1'bx;load_B = 1'bx;load_add = 1'bx;shift_HQ_LQ_Q_1 = 1'bx;add_sub = 1;dc = 1; end
-            S4: #10 if(done) begin load_A = 0;load_B = 0;load_add = 0;shift_HQ_LQ_Q_1 = 0;add_sub = 0;dc = 0; end
+            S0: begin load_A = 1;load_B = 1;load_add = 1;shift_HQ_LQ_Q_1 = 1'bx;add_sub = 1'bx;dc = 1'bx; end
+            S1: if(Q[0] == Q[1]) begin load_A = 1'bx;load_B = 1'bx;load_add = 1'bx;shift_HQ_LQ_Q_1 = 1;add_sub = 1'bx;dc = 1; end
+            S2: if(Q == 3'b010) begin load_A = 1'bx;load_B = 1'bx;load_add = 1'bx;shift_HQ_LQ_Q_1 = 1'bx;add_sub = 0;dc = 1; end
+            S3: if(Q == 3'b001) begin load_A = 1'bx;load_B = 1'bx;load_add = 1'bx;shift_HQ_LQ_Q_1 = 1'bx;add_sub = 1;dc = 1; end
+            S4: if(done) begin load_A = 1'bx;load_B = 1'bx;load_add = 1'bx;shift_HQ_LQ_Q_1 = 1'bx;add_sub = 1'bx;dc = 1'bx; end
             default: begin load_A = 1'bx;load_B = 1'bx;load_add = 1'bx;shift_HQ_LQ_Q_1 = 1'bx;add_sub = 1'bx;dc = 1'bx; end
         endcase
     end
