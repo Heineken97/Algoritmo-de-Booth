@@ -33,7 +33,8 @@ module Init(input pushButton,reset ,logic[7:0]a,logic[7:0]b,logic[3:0]button,out
     logic clk ;
     logic refreshclock;
     logic [2:0] Q_LSB;
-    logic [15:0] Y;
+    logic [7:0] Y;
+    logic [13:0] leds;
     logic [1:0] refresh_counter;
     logic [3:0] ONE_DIGIT;
     logic [7:0] oa;
@@ -41,9 +42,11 @@ module Init(input pushButton,reset ,logic[7:0]a,logic[7:0]b,logic[3:0]button,out
 
     Lectura L0(.pushButton(pushButton),.a(a),.b(b),.enable(enable),.oa(oa),.ob(ob));
     
+    Leds U2(.a(a),.b(b),.leds(leds),.clk(clk));
+    
     Multiplicador Multiplicador(.clk(clk),.rst(reset),.A(oa),.B(ob),.mult_control(controlsigns),.Q_LSB(Q_LSB),.Y(Y));
     
-    Control Controlador(.valid(enable),.reset(reset),.clk(clk),.Q_1(Y),.Q0(Q_LSB),.load_A(controlsigns.load_A),.load_B(controlsigns.load_B),.load_add(controlsigns.load_add),.shift_HQ_LQ_Q_1(controlsigns.shift_HQ_LQ_Q_1),.add_sub(controlsigns.add_sub));
+    Control Controlador(.valid(enable),.reset(reset),.clk(clk),Q(Q_LSB),.load_A(controlsigns.load_A),.load_B(controlsigns.load_B),.load_add(controlsigns.load_add),.shift_HQ_LQ_Q_1(controlsigns.shift_HQ_LQ_Q_1),.add_sub(controlsigns.add_sub));
     
     ClockDivider Refreshclock_generator(.clk(clk),.divided_clk(refreshclock));
 

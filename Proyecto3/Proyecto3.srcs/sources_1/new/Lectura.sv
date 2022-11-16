@@ -26,7 +26,7 @@ module Lectura(input pushButton ,a,b,output logic enable,oa,ob);
     logic [7:0] a,b;
     logic [7:0]oa,ob;
     logic [3:0][7:0] FFA,FFB;
-    logic [13:0] leds;
+    
     logic [25:0]counter = 0;
     // Contador verifica 500ms
     always@(*)
@@ -44,8 +44,7 @@ module Lectura(input pushButton ,a,b,output logic enable,oa,ob);
             enable <= (counter == 26'd50000000)?1'b1:1'b0;
         end
     end
-    //LEDS
-    Leds U2(a,b,leds,clk);
+
     //Antirebote
     always @(posedge clk)
     begin
