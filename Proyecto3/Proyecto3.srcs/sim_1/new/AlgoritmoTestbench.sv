@@ -18,24 +18,68 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-typedef struct packed{
-    logic load;
-    logic add;
-    logic sub;
-    logic shift;
-    logic dc;
-} ControlSignals;
+typedef struct packed {
+    logic load_A;
+    logic load_B;
+    logic load_add;
+    logic shift_HQ_LQ_Q_1;
+    logic add_sub;
+}ControlSignals;
 
 module AlgoritmoTestbench;
-    logic reset, clk, Y, Q_LSB;
+    logic reset, enable, clk;
+    logic [7:0] Y;
+    logic [2:0] Q_LSB;
     logic [7:0] a,b;
     ControlSignals control;
-    Control Controlador(clk,Y, Q_LSB, control.add,control.sub,control.load,control.shift,control.dc);
-    Multiplicador Multiplicador(clk,reset,a,b,control,Q_LSB,Y);
-    always #5 clk = ~clk;
+    
+    Multiplicador Multiplicador(.clk(clk),.rst(reset),.A(a),.B(b),.mult_control(control),.Q_LSB(Q_LSB),.Y(Y));
+    
+    Control Controlador(.valid(enable),.reset(reset),.clk(clk),.Q(Q_LSB),.load_A(control.load_A),.load_B(control.load_B),.load_add(control.load_add),.shift_HQ_LQ_Q_1(control.shift_HQ_LQ_Q_1),.add_sub(control.add_sub));
+    
     initial begin
-        a = 8'b1;
-        b = 8'b0000011;
+        #5 clk=1;
+        #5 clk=0;
+        reset = 1'b1;
+        #500
+        #5 clk=1;
+        #5 clk=0;
+        reset = 1'b0;
+        Y = 8'b0 ; 
+        Q_LSB = 3'b0;
+        a = 8'b0000100;
+        b = 8'b0000111;
+        #5 clk=1;
+        #5 clk=0;
+        #5 clk=1;
+        #5 clk=0;
+        #5 clk=1;
+        #5 clk=0;
+        #5 clk=1;
+        #5 clk=0;
+        #5 clk=1;
+        #5 clk=0;
+        #5 clk=1;
+        #5 clk=0;
+        #5 clk=1;
+        #5 clk=0;
+        #5 clk=1;
+        #5 clk=0;
+        #5 clk=1;
+        #5 clk=0;
+        enable = 1'b1; 
+        #5 clk=1;
+        #5 clk=0;
+        #5 clk=1;
+        #5 clk=0;
+        #5 clk=1;
+        #5 clk=0;
+        #5 clk=1;
+        #5 clk=0;
+        #5 clk=1;
+        #5 clk=0;
+        #5 clk=1;
+        #5 clk=0;
         #500
         a[0]=0;
         a[1]=0;
@@ -47,9 +91,11 @@ module AlgoritmoTestbench;
         b[2]=1;
         b[3]=1;
         b[4]=1;
-    end
-    initial
-    begin
-        $monitor($time,"%a %b %c %d", Y, Q_LSB,a,b);
+        #5 clk=1;
+        #5 clk=0;
+        #5 clk=1;
+        #5 clk=0;
+        #5 clk=1;
+        #5 clk=0;
     end
 endmodule
