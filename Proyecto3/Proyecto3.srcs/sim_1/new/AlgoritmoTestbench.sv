@@ -24,24 +24,27 @@ typedef struct packed {
     logic load_add;
     logic shift_HQ_LQ_Q_1;
     logic add_sub;
+    logic dc;
 }ControlSignals;
 
 module AlgoritmoTestbench;
-    logic reset, enable, clk;
+    logic reset,clk,done;
     logic [7:0] Y;
     logic [2:0] Q_LSB;
+    logic [4:0] counter;
     logic [7:0] a,b;
     ControlSignals control;
     
-    Multiplicador Multiplicador(.clk(clk),.rst(reset),.A(a),.B(b),.mult_control(control),.Q_LSB(Q_LSB),.Y(Y));
+    Multiplicador Multiplicador(.clk(clk),.rst(reset),.A(a),.B(b),.mult_control(control),.Q_LSB(Q_LSB),.Y(Y),.done(done),.counter(counter));
     
-    Control Controlador(.valid(enable),.reset(reset),.clk(clk),.Q(Q_LSB),.load_A(control.load_A),.load_B(control.load_B),.load_add(control.load_add),.shift_HQ_LQ_Q_1(control.shift_HQ_LQ_Q_1),.add_sub(control.add_sub));
+    Control Controlador(.done(done),.reset(reset),.clk(clk),.Q(Q_LSB) ,.load_A(control.load_A),.load_B(control.load_B),.load_add(control.load_add),.shift_HQ_LQ_Q_1(control.shift_HQ_LQ_Q_1),.add_sub(control.add_sub),.dc(control.dc));
     
     initial begin
+        #500
         #5 clk=1;
         #5 clk=0;
         reset = 1'b1;
-        #500
+        #50
         #5 clk=1;
         #5 clk=0;
         reset = 1'b0;
@@ -67,7 +70,6 @@ module AlgoritmoTestbench;
         #5 clk=0;
         #5 clk=1;
         #5 clk=0;
-        enable = 1'b1; 
         #5 clk=1;
         #5 clk=0;
         #5 clk=1;
@@ -80,22 +82,14 @@ module AlgoritmoTestbench;
         #5 clk=0;
         #5 clk=1;
         #5 clk=0;
-        #500
-        a[0]=0;
-        a[1]=0;
-        a[2]=0;
-        a[3]=0;
-        a[4]=0;
-        b[0]=1;
-        b[1]=1;
-        b[2]=1;
-        b[3]=1;
-        b[4]=1;
         #5 clk=1;
         #5 clk=0;
         #5 clk=1;
         #5 clk=0;
         #5 clk=1;
         #5 clk=0;
+        #5 clk=1;
+        #5 clk=0;
+
     end
 endmodule
