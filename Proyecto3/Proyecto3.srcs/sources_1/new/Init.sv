@@ -25,28 +25,31 @@ typedef struct packed {
     logic load_add;
     logic shift_HQ_LQ_Q_1;
     logic add_sub;
+    logic dc;
 }ControlSignals;
 
 module Init(input pushButton,reset ,logic[7:0]a,logic[7:0]b,logic[3:0]button,output logic[7:0]out, logic [3:0]anode, logic [7:0]cathode );
     ControlSignals controlsigns;
-    logic enable;
+    logic ready;
+    logic done;
     logic clk ;
     logic refreshclock;
     logic [2:0] Q_LSB;
     logic [7:0] Y;
+    logic [4:0] counter;
     logic [13:0] leds;
     logic [1:0] refresh_counter;
     logic [3:0] ONE_DIGIT;
     logic [7:0] oa;
     logic [7:0] ob;
 
-    Lectura L0(.pushButton(pushButton),.a(a),.b(b),.enable(enable),.oa(oa),.ob(ob));
+    Lectura L0(.pushButton(pushButton),.a(a),.b(b),.enable(ready),.oa(oa),.ob(ob));
     
     Leds U2(.a(a),.b(b),.leds(leds),.clk(clk));
     
-    Multiplicador Multiplicador(.clk(clk),.rst(reset),.A(oa),.B(ob),.mult_control(controlsigns),.Q_LSB(Q_LSB),.Y(Y));
+    Multiplicador Multiplicador(.clk(clk),.rst(reset),.A(oa),.B(ob),.mult_control(controlsigns),.Q_LSB(Q_LSB),.Y(Y),.done(done),.counter(counter));
     
-    Control Controlador(.valid(enable),.reset(reset),.clk(clk),Q(Q_LSB),.load_A(controlsigns.load_A),.load_B(controlsigns.load_B),.load_add(controlsigns.load_add),.shift_HQ_LQ_Q_1(controlsigns.shift_HQ_LQ_Q_1),.add_sub(controlsigns.add_sub));
+    Control Controlador(.done(done),.reset(reset),.clk(clk),.Q(Q_LSB) ,.load_A(controlsigns.load_A),.load_B(controlsigns.load_B),.load_add(controlsigns.load_add),.shift_HQ_LQ_Q_1(controlsigns.shift_HQ_LQ_Q_1),.add_sub(controlsigns.add_sub),.dc(controlsigns.dc));
     
     ClockDivider Refreshclock_generator(.clk(clk),.divided_clk(refreshclock));
 

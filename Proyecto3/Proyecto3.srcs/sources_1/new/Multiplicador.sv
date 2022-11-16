@@ -24,6 +24,7 @@ typedef struct packed{
     logic load_add;
     logic shift_HQ_LQ_Q_1;
     logic add_sub;
+    logic dc;
 } multi_control_t;
 
 module Multiplicador#(
@@ -35,7 +36,8 @@ module Multiplicador#(
     input logic [N-1:0]B,
     input multi_control_t mult_control,
     output logic [2:0] Q_LSB,
-    output logic [2*N-1:0] Y);
+    output logic [2*N-1:0] Y,
+    output done,counter);
     
     logic [N-1:0] M;
     logic [N-1:0] adder_sub_out;
@@ -43,6 +45,10 @@ module Multiplicador#(
     logic [N-1:0] HQ;
     logic [N-1:0] LQ;
     logic Q_1;
+    logic one = 4'b0001;
+    logic done = 0 ;
+    logic [4:0] counter = 4'b0111;
+   
     //reg_m
     always_ff@(posedge clk,rst) begin
         if(rst)
@@ -50,12 +56,29 @@ module Multiplicador#(
         else
             M<=(mult_control.load_A)? A:M;
     end
+    //reg_counter
+    always@(posedge clk)
+      if(rst)
+            counter = 4'b0111;
+            
     //adder/sub
     always_comb begin
         if(mult_control.add_sub)
             adder_sub_out = M+HQ;
         else
             adder_sub_out = M-HQ;
+    end
+    //adder/counter
+    always @(posedge clk) begin
+        if(counter == 4'b0000)
+        counter = 4'b0111;
+        if(mult_control.dc)
+        counter = counter-one;
+    end
+    //adder/done
+    always @(posedge clk) begin
+        if(counter == 4'b0000)
+         done = 1;
     end
     //shiftRegister
     always_comb begin
