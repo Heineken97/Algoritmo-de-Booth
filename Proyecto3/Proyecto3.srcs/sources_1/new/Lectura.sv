@@ -24,7 +24,7 @@
 module Lectura(input pushButton,clk ,a,b,output logic enable,oa,ob);
     logic pushButton,clk,enable;
     logic [7:0] a,b;
-    logic [7:0]oa,ob;
+    logic oa,ob;
     logic [3:0][7:0] FFA,FFB;
     
     logic [25:0]counter = 0;
