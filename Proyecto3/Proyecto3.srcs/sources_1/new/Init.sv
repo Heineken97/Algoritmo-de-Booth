@@ -30,9 +30,7 @@ typedef struct packed {
 
 module Init(input pushButton,reset ,logic[7:0]a,logic[7:0]b,logic[3:0]button,output logic[7:0]out, logic [3:0]anode, logic [7:0]cathode );
     ControlSignals controlsigns;
-    logic ready;
-    logic done;
-    logic clk ;
+    logic ready,done,clk,oa,ob;
     logic refreshclock;
     logic [2:0] Q_LSB;
     logic [7:0] Y;
@@ -40,14 +38,12 @@ module Init(input pushButton,reset ,logic[7:0]a,logic[7:0]b,logic[3:0]button,out
     logic [13:0] leds;
     logic [1:0] refresh_counter;
     logic [3:0] ONE_DIGIT;
-    logic [7:0] oa;
-    logic [7:0] ob;
 
     Lectura L0(.pushButton(pushButton),.a(a),.b(b),.enable(ready),.oa(oa),.ob(ob));
     
     Leds U2(.clk(clk),.a(a),.b(b),.leds(leds));
     
-    Multiplicador Multiplicador(.clk(clk),.rst(reset),.A(oa),.B(ob),.mult_control(controlsigns),.Q_LSB(Q_LSB),.Y(Y),.done(done),.counter(counter));
+    Multiplicador Multiplicador(.clk(clk),.rst(reset),.A(a),.B(b),.mult_control(controlsigns),.Q_LSB(Q_LSB),.Y(Y),.done(done),.counter(counter));
     
     Control Controlador(.done(done),.reset(reset),.clk(clk),.Q(Q_LSB) ,.load_A(controlsigns.load_A),.load_B(controlsigns.load_B),.load_add(controlsigns.load_add),.shift_HQ_LQ_Q_1(controlsigns.shift_HQ_LQ_Q_1),.add_sub(controlsigns.add_sub),.dc(controlsigns.dc));
     
