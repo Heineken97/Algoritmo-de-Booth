@@ -90,6 +90,7 @@ module Multiplicador#(
     end
 
     always_ff@(posedge clk,rst) begin
+    if(!done)
         if(rst)
             shift <='b0;
         else if( mult_control.shift_HQ_LQ_Q_1)

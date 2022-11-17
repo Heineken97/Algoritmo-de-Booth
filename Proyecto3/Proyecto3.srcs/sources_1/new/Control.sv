@@ -30,13 +30,13 @@ module Control(input logic done,reset,clk,[2:0]Q, output logic load_A,load_B,loa
         if(reset) state<= S0;
         else state <= nextState;
      
-    always_comb 
+    always@(*)
     case(state)
-    S0: nextState = S1;
-    S1: nextState = S2;
-    S2: nextState = S3;
-    S3: nextState = S4;
-    S4: nextState = S0;
+    S0: if(done)nextState = S4 ; else if(Q==3'b011 || Q==3'b000) nextState = S1;else if(Q==3'b010)nextState = S2; else if(Q==3'b001) nextState = S3; else nextState = S1;
+    S1: if(done)nextState = S4; else nextState = S0;
+    S2: if(done)nextState = S4; else nextState = S1;
+    S3: if(done)nextState = S4; else nextState = S1;
+    S4: if(reset) nextState = S0; else nextState = S4;
     default: nextState = S0;
     endcase
 
@@ -44,10 +44,10 @@ module Control(input logic done,reset,clk,[2:0]Q, output logic load_A,load_B,loa
     begin
         case(state)
             S0: begin load_A = 1;load_B = 1;load_add = 1;shift_HQ_LQ_Q_1 = 1'bx;add_sub = 1'bx;dc = 1'bx; end
-            S1: if(Q[0] == Q[1]) begin load_A = 1'bx;load_B = 1'bx;load_add = 1'bx;shift_HQ_LQ_Q_1 = 1;add_sub = 1'bx;dc = 1; end
-            S2: if(Q[0] != Q[1] && Q[0] == 1'b0) begin load_A = 1'bx;load_B = 1'bx;load_add = 1'bx;shift_HQ_LQ_Q_1 = 1'bx;add_sub = 0;dc = 1; end
-            S3: if(Q[0] != Q[1] && Q[0] == 1'b1) begin load_A = 1'bx;load_B = 1'bx;load_add = 1'bx;shift_HQ_LQ_Q_1 = 1'bx;add_sub = 1;dc = 1; end
-            S4: if(done) begin load_A = 1'bx;load_B = 1'bx;load_add = 1'bx;shift_HQ_LQ_Q_1 = 1'bx;add_sub = 1'bx;dc = 1'bx; end
+            S1: begin load_A = 1'bx;load_B = 1'bx;load_add = 1'bx;shift_HQ_LQ_Q_1 = 1;add_sub = 1'bx;dc = 1; end
+            S2: begin load_A = 1'bx;load_B = 1'bx;load_add = 1'bx;shift_HQ_LQ_Q_1 = 1'bx;add_sub = 0;dc =  1'bx; end
+            S3: begin load_A = 1'bx;load_B = 1'bx;load_add = 1'bx;shift_HQ_LQ_Q_1 = 1'bx;add_sub = 1;dc =  1'bx; end
+            S4: begin load_A = 1'bx;load_B = 1'bx;load_add = 1'bx;shift_HQ_LQ_Q_1 = 1'bx;add_sub = 1'bx;dc = 1'bx; end
             default: begin load_A = 1'bx;load_B = 1'bx;load_add = 1'bx;shift_HQ_LQ_Q_1 = 1'bx;add_sub = 1'bx;dc = 1'bx; end
         endcase
     end
