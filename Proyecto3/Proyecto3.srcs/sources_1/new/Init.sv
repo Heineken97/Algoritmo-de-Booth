@@ -45,7 +45,7 @@ module Init(input pushButton,reset ,logic[7:0]a,logic[7:0]b,logic[3:0]button,out
 
     Lectura L0(.pushButton(pushButton),.a(a),.b(b),.enable(ready),.oa(oa),.ob(ob));
     
-    Leds U2(.a(a),.b(b),.leds(leds),.clk(clk));
+    Leds U2(.clk(clk),.a(a),.b(b),.leds(leds));
     
     Multiplicador Multiplicador(.clk(clk),.rst(reset),.A(oa),.B(ob),.mult_control(controlsigns),.Q_LSB(Q_LSB),.Y(Y),.done(done),.counter(counter));
     

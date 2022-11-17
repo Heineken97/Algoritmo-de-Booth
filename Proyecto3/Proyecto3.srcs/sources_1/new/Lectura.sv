@@ -21,8 +21,8 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module Lectura(input pushButton ,a,b,output logic enable,oa,ob);
-    logic clk;
+module Lectura(input pushButton,clk ,a,b,output logic enable,oa,ob);
+    logic pushButton,clk,enable;
     logic [7:0] a,b;
     logic [7:0]oa,ob;
     logic [3:0][7:0] FFA,FFB;

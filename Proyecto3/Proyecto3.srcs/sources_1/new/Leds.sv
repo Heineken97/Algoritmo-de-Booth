@@ -20,15 +20,15 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module Leds(input logic [7:0] a, input logic [7:0] b, output logic[13:0] leds, input logic clk);
+module Leds( input logic clk,input logic [7:0] a, input logic [7:0] b, output logic[13:0] leds);
     logic [25:0] counter = 26'd0;
     logic valid = 1;
     always @(posedge clk)
     begin
         if(valid)
         begin
-            assign leds[13:8] = a;
-            assign leds[7:0] = b;
+            leds[13:8] = a;
+            leds[7:0] = b;
         end
     end
     always @*
@@ -41,6 +41,6 @@ module Leds(input logic [7:0] a, input logic [7:0] b, output logic[13:0] leds, i
             begin
                 counter = counter + 26'd1;
             end
-        assign valid = (counter == 26'd50000000)? 1'b1:1'b0;
+        valid = (counter == 26'd50000000)? 1'b1:1'b0;
     end
 endmodule
