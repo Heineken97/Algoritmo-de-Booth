@@ -20,9 +20,11 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 module LedsTestbench;
+    logic clk = 0;
     logic [7:0] a,b;
     logic [13:0] leds;
-    Leds(a,b,leds);
+    Leds U1(.clk(clk),.a(a),.b(b),.leds(leds));
+    always  #20 clk = ~clk;
     initial begin
     a = 8'b1;
     b = 8'b0000011;

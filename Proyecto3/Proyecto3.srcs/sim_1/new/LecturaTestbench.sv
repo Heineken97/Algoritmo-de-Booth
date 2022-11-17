@@ -20,35 +20,37 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 module LecturaTestbench;
+    logic clk = 0;
     logic pushButton,enable;
     logic [7:0] a,b;
-    logic [7:0] oa,ob;
-    Lectura U1(pushButton,a,b,enable,oa,ob);
+    logic oa,ob;
+    Lectura U1(.pushButton(pushButton),.clk(clk),.a(a),.b(b),.enable(enable),.oa(oa),.ob(ob));
+    always  #20 clk = ~clk;
     initial begin
-    pushButton = 1'b0;
-    enable = 1'b0;
-    #500
-    a = 8'b1;
-    b = 8'b0000011;
-    pushButton = 1'b1;
-    #500
-    pushButton = 1'b0;
-    #500
-    a[0]=0;
-    a[1]=0;
-    a[2]=0;
-    a[3]=0;
-    a[4]=0;
-    b[0]=1;
-    b[1]=1;
-    b[2]=1;
-    b[3]=1;
-    b[4]=1;
-    #500
-    a = 8'b1;
-    b = 8'b0000011;
-    pushButton = 1'b1;
-    #500
-    pushButton = 1'b0;
+        a = 8'b0000001;
+        b = 8'b0000011;
+        pushButton = 1'b0;
+        enable = 1'b0;
+        #500
+        pushButton = 1'b1;
+        #100
+        pushButton = 1'b0;
+        #500
+        a[0]=0;
+        a[1]=0;
+        a[2]=0;
+        a[3]=0;
+        a[4]=0;
+        b[0]=1;
+        b[1]=1;
+        b[2]=1;
+        b[3]=1;
+        b[4]=1;
+        #500
+        a = 8'b1;
+        b = 8'b0000011;
+        pushButton = 1'b1;
+        #500
+        pushButton = 1'b0;
     end
 endmodule
