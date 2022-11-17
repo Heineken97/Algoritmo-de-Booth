@@ -45,8 +45,8 @@ module Control(input logic done,reset,clk,[2:0]Q, output logic load_A,load_B,loa
         case(state)
             S0: begin load_A = 1;load_B = 1;load_add = 1;shift_HQ_LQ_Q_1 = 1'bx;add_sub = 1'bx;dc = 1'bx; end
             S1: if(Q[0] == Q[1]) begin load_A = 1'bx;load_B = 1'bx;load_add = 1'bx;shift_HQ_LQ_Q_1 = 1;add_sub = 1'bx;dc = 1; end
-            S2: if(Q == 3'b010) begin load_A = 1'bx;load_B = 1'bx;load_add = 1'bx;shift_HQ_LQ_Q_1 = 1'bx;add_sub = 0;dc = 1; end
-            S3: if(Q == 3'b001) begin load_A = 1'bx;load_B = 1'bx;load_add = 1'bx;shift_HQ_LQ_Q_1 = 1'bx;add_sub = 1;dc = 1; end
+            S2: if(Q[0] != Q[1] && Q[0] == 1'b0) begin load_A = 1'bx;load_B = 1'bx;load_add = 1'bx;shift_HQ_LQ_Q_1 = 1'bx;add_sub = 0;dc = 1; end
+            S3: if(Q[0] != Q[1] && Q[0] == 1'b1) begin load_A = 1'bx;load_B = 1'bx;load_add = 1'bx;shift_HQ_LQ_Q_1 = 1'bx;add_sub = 1;dc = 1; end
             S4: if(done) begin load_A = 1'bx;load_B = 1'bx;load_add = 1'bx;shift_HQ_LQ_Q_1 = 1'bx;add_sub = 1'bx;dc = 1'bx; end
             default: begin load_A = 1'bx;load_B = 1'bx;load_add = 1'bx;shift_HQ_LQ_Q_1 = 1'bx;add_sub = 1'bx;dc = 1'bx; end
         endcase
