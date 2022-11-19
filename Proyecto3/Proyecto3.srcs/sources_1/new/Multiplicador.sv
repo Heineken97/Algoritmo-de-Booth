@@ -30,8 +30,7 @@ typedef struct packed{
 module Multiplicador#(
     parameter N = 8
 )(
-    input logic clk,
-    input logic rst,
+    input logic clk,reset,
     input logic [N-1:0]A,
     input logic [N-1:0]B,
     input multi_control_t mult_control,
@@ -47,18 +46,18 @@ module Multiplicador#(
     logic Q_1;
     logic one = 4'b0001;
     logic done = 0 ;
-    logic [4:0] counter = 4'b0111;
+    logic [4:0] counter;
    
     //reg_m
-    always_ff@(posedge clk,rst) begin
-        if(rst)
+    always_ff@(posedge clk) begin
+        if(reset)
             M<='b0;
         else
             M<=(mult_control.load_A)? A:M;
     end
     //reg_counter
     always@(posedge clk)
-      if(rst)
+      if(reset)
             counter = 4'b0111;
             
     //adder/sub
@@ -89,9 +88,9 @@ module Multiplicador#(
         Q_LSB = {LQ[0],Q_1};
     end
 
-    always_ff@(posedge clk,rst) begin
+    always_ff@(posedge clk) begin
     if(!done)
-        if(rst)
+        if(reset)
             shift <='b0;
         else if( mult_control.shift_HQ_LQ_Q_1)
             //arithmetic shift
