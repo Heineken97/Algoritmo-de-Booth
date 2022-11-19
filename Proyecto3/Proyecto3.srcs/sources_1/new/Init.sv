@@ -28,13 +28,11 @@ typedef struct packed {
     logic dc;
 }ControlSignals;
 
-module Init(input pushButton,reset ,logic[7:0]a,logic[7:0]b,output logic [3:0]anode, logic [7:0]cathode );
+module Init(input pushButton,reset ,logic[7:0]a,logic[7:0]b,output logic [3:0]anode, logic [7:0]cathode,logic [15:0] leds );
     ControlSignals controlsigns;
-    logic ready,done,clk;
-    logic refreshclock;
+    logic ready,done,clk;;
     logic [2:0] Q_LSB;
     logic [7:0] Y;
-    logic [13:0] leds;
     wire refreshclock;
     wire [2:0] refresh_counter;
     wire [3:0] ONE_DIGIT;
