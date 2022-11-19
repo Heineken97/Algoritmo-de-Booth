@@ -28,7 +28,7 @@ typedef struct packed {
 }ControlSignals;
 
 module AlgoritmoTestbench;
-    logic reset,done;
+    logic done,reset;
     logic clk = 0;
     logic [7:0] Y;
     logic [2:0] Q_LSB;
@@ -36,18 +36,20 @@ module AlgoritmoTestbench;
     logic [7:0] a,b;
     ControlSignals control;
     
-    Multiplicador Multiplicador(.clk(clk),.rst(reset),.A(a),.B(b),.mult_control(control),.Q_LSB(Q_LSB),.Y(Y),.done(done),.counter(counter));
+    Multiplicador Multiplicador(.clk(clk),.reset(reset),.A(a),.B(b),.mult_control(control),.Q_LSB(Q_LSB),.Y(Y),.done(done),.counter(counter));
 
     Control Controlador(.done(done),.reset(reset),.clk(clk),.Q(Q_LSB) ,.load_A(control.load_A),.load_B(control.load_B),.load_add(control.load_add),.shift_HQ_LQ_Q_1(control.shift_HQ_LQ_Q_1),.add_sub(control.add_sub),.dc(control.dc));
    
     always  #20 clk = ~clk;
-   
+    
     initial begin
-    reset = 1'b1;
-    #30
-    reset = 1'b0;
-        a = 8'b0000100;
-        b = 8'b0000111;
+    reset =1'b1;
+   
+    #50 
+    reset =1'b0;
+    b = 8'b00000100;
+    a = 8'b00000111;
+
        
     end
 endmodule
