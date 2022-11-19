@@ -104,10 +104,12 @@ Estos operando son enviados al circuito antirebote que corresponde a 4 Flip Flop
 
 ### Funcionamiento Fundamental Subsistema de cálculo de multiplicación
 
+![Image text](https://github.com/Heineken97/Algoritmo-de-Booth/blob/main/imagenes/Calculo_Multiplicador.PNG)
+
 
 ### Diagrama de Bloques Subsistema de cálculo de multiplicación
 
-
+![Image text](https://github.com/Heineken97/Algoritmo-de-Booth/blob/main/imagenes/Diagrama_Bloques_Multiplicador.png)
 
 ## Subsistema conversión de binario a representación BCD
 
@@ -127,8 +129,8 @@ Estos operando son enviados al circuito antirebote que corresponde a 4 Flip Flop
 
 
 ## Diagramas de estado de todas las FSM diseñadas
-### Diagramas de Estado de la maquina de Moore para la unidad microprogramada
-![Image text](https://github.com/Heineken97/Algoritmo-de-Booth/blob/main/imagenes/MaquinaDeEstadosMoore.png)
+### Diagramas de Estado de la maquina de Moore 
+![Image text](https://github.com/Heineken97/Algoritmo-de-Booth/blob/main/imagenes/MaquinaDeEstadosMoore.PNG)
 
 ## Ejemplo y análisis de una simulación funcional del sistema completo
 
