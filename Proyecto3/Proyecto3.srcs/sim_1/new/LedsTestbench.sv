@@ -14,33 +14,36 @@
 // Dependencies: 
 // 
 // Revision:
-// Revision 0.01 - File Created
+// Revision Segunda Version
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
 module LedsTestbench;
     logic clk = 0;
-    logic [7:0] a,b;
-    logic [13:0] leds;
-    Leds U1(.clk(clk),.a(a),.b(b),.leds(leds));
-    always  #20 clk = ~clk;
-    initial begin
-    a = 8'b1;
-    b = 8'b0000011;
-    #500
-    a[0]=0;
-    a[1]=0;
-    a[2]=0;
-    a[3]=0;
-    a[4]=0;
-    b[0]=1;
-    b[1]=1;
-    b[2]=1;
-    b[3]=1;
-    b[4]=1;
-    #500
-    a = 8'b1;
-    b = 8'b0000011;
+    logic [7:0]a, b;
+    logic [15:0]leds;
+    logic rst = 1;
+
+    // Clock definition
+    localparam CLK_PERIOD = 10; // 100 Mhz (counter is in ns)
+    localparam RST_COUNT = 10; //Clock cycles that reset is high
+    
+    Leds led(.clk(clk),.a(a),.b(b),.reset(~rst),.leds(leds));
+
+    always begin
+        clk   = #(CLK_PERIOD/2) ~clk;
     end
+
+    initial begin
+        rst = 1;
+        #(RST_COUNT*CLK_PERIOD);
+        b = 8'b00000100;
+        a = 8'b00000111;
+        @(posedge clk);
+        rst = 0;
+    end
+
+ 
+
 endmodule
