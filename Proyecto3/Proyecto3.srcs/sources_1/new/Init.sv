@@ -10,7 +10,8 @@
 // Target Devices: Nexys A7 - 100T
 // Tool Versions: 
 // Description: 
-// Sirve para unir todos los submodulos
+// Inicial el modulo de Lectura, cuando este esta listo, habilita la ruta de datos y el multiplicador
+// Une los modulos de contadores y su paso a BCD y los submodulos de despliegue 
 // Dependencies: 
 // 
 // Revision:
@@ -18,29 +19,45 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
+typedef struct packed {
+    logic load_A;
+    logic load_B;
+    logic load_add;
+    logic shift_HQ_LQ_Q_1;
+    logic add_sub;
+    logic dc;
+}ControlSignals;
 
-module Init(input pushButton,reset ,logic[7:0]a,logic[7:0]b,logic[3:0]button,output logic[7:0]out, logic [3:0]anode, logic [7:0]cathode );
-    logic [7:0] oa,ob;
-    logic enable= 1'b0;
-    logic clk ;
+module Init(input pushButton,reset ,logic[7:0]a,logic[7:0]b,output logic [3:0]anode, logic [7:0]cathode );
+    ControlSignals controlsigns;
+    logic ready,done,clk;
     logic refreshclock;
     logic [2:0] Q_LSB;
-    logic [15:0] Y;
-    //multi_control_t mult_control;
-    logic mult_control;
+    logic [7:0] Y;
+    logic [13:0] leds;
+    wire refreshclock;
+    wire [2:0] refresh_counter;
+    wire [3:0] ONE_DIGIT;
+    wire [15:0] bcd_;
 
-    logic [1:0] refresh_counter;
-    logic [3:0] ONE_DIGIT;
+    Lectura L0(.clk(clk),.reset(reset),.a(a),.b(b),.pushButton(pushButton),.enable(ready));
     
-    Lectura L0(pushButton, reset,a,b,enable,oa,ob);
-    begin
-        Multiplicador Multiplicador(clk,reset,a,b,mult_control,Q_LSB,Y);
-        ClockDivider Refreshclock_generator(.clk(clk),.divided_clk(refreshclock));
-        RefreshCounter Refreshcounter_wrapper(.refresh_clock(refreshclock),.refresh_counter(refresh_counter));
-        AnodoControl Anode_Control_wrapper(.refresh_counter(refresh_counter),.anode(anode));
-        BCDControl BCD_Control_wrapper(.digit1(out[3:0]),.digit2(out[7:4]),.digit3(button[3:0]),.digit4(button[3:0]),.refresh_counter(refresh_counter),.ONE_DIGIT(ONE_DIGIT));
-        BCDCathode BCD_to_Cathodes_Wrapper(.digit(ONE_DIGIT),.cathode(cathode));
-    end
+    Leds U2(.clk(clk),.a(a),.b(b),.leds(leds));
+            
+    Multiplicador Multiplicador(.clk(clk),.reset(reset),.A(a),.B(b),.mult_control(control),.Q_LSB(Q_LSB),.Y(Y),.done(done));
 
-
+    Control Controlador(.clk(clk),.done(done),.ready(ready),.reset(reset),.Q(Q_LSB),.load_A(controlsigns.load_A),.load_B(controlsigns.load_B),.load_add(controlsigns.load_add),.shift_HQ_LQ_Q_1(controlsigns.shift_HQ_LQ_Q_1),.add_sub(controlsigns.add_sub),.dc(controlsigns.dc));
+    
+    ClockDivider Refreshclock_generator (.clk(clk),.divided_clk(refreshclock));
+    
+    RefreshCounter Refreshcounter_wrapper(.refresh_clock(refreshclock),.refresh_counter(refresh_counter));
+    
+    Bin2Bcd BCD_wrapper(.bin(Y),.bcd(bcd_));
+    
+    AnodoControl Anode_control_wrapper(.refresh_counter(refresh_counter),.anode(anode));
+    
+    BCDControl BCD_control_wrapper(.digit1(bcd_[3:0]),.digit2(bcd_[7:4]),.digit3(bcd_[11:8]),.digit4(bcd_[15:12]),.refresh_counter(refresh_counter),.ONE_DIGIT(ONE_DIGIT));
+    
+    BCDCathode BCD_to_Cathodes_Wrapper(.digit(ONE_DIGIT),.cathode(cathode));
+    
 endmodule

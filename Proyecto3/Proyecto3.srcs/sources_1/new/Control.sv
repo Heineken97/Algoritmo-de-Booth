@@ -22,7 +22,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-module Control(input logic done,clk,[2:0]Q,reset, output logic load_A,load_B,load_add,shift_HQ_LQ_Q_1,add_sub,dc);
+module Control(input logic ready,done,clk,[2:0]Q,reset, output logic load_A,load_B,load_add,shift_HQ_LQ_Q_1,add_sub,dc);
     typedef enum logic [2:0] {S0,S1,S2,S3,S4,S5} statetype;
     statetype [2:0] state,nextState;
     
@@ -32,7 +32,7 @@ module Control(input logic done,clk,[2:0]Q,reset, output logic load_A,load_B,loa
      
     always@(*)
     case(state)
-    S0: nextState = S1;
+    S0: if(ready)nextState = S1;
     S1: if(done)nextState = S1; else if(Q==3'b011 || Q==3'b000) nextState = S2;else if(Q==3'b010)nextState = S3;else if(Q==3'b001)nextState = S4; else nextState = S1;
     S2: nextState = S1;
     S3: if(done)nextState = S1; else nextState = S2;
