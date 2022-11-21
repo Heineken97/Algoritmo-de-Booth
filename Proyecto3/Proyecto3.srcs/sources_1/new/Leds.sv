@@ -56,20 +56,20 @@ module Leds( input logic clk,reset,input logic [7:0] a, input logic [7:0] b, out
             end
         end
     end
-    assign leds[0] = on_not_off_flag && a[0];
-    assign leds[1] = on_not_off_flag && a[1];
-    assign leds[2] = on_not_off_flag && a[2];
-    assign leds[3] = on_not_off_flag && a[3];
-    assign leds[4] = on_not_off_flag && a[4];
-    assign leds[5] = on_not_off_flag && a[5];
-    assign leds[6] = on_not_off_flag && a[6];
-    assign leds[7] = on_not_off_flag && a[7];
-    assign leds[8] = on_not_off_flag && b[0];
-    assign leds[9] = on_not_off_flag && b[1];
-    assign leds[10] = on_not_off_flag && b[2];
-    assign leds[11] = on_not_off_flag && b[3];
-    assign leds[12] = on_not_off_flag && b[4];
-    assign leds[13] = on_not_off_flag && b[5];
-    assign leds[14] = on_not_off_flag && b[6];
-    assign leds[15] = on_not_off_flag && b[7];
+    assign leds[0] = a[0];
+    assign leds[1] = a[1];
+    assign leds[2] = a[2];
+    assign leds[3] = a[3];
+    assign leds[4] = a[4];
+    assign leds[5] = a[5];
+    assign leds[6] = a[6];
+    assign leds[7] = a[7];
+    assign leds[8] = b[0];
+    assign leds[9] = b[1];
+    assign leds[10] = b[2];
+    assign leds[11] = b[3];
+    assign leds[12] = b[4];
+    assign leds[13] = b[5];
+    assign leds[14] = b[6];
+    assign leds[15] = b[7];
 endmodule

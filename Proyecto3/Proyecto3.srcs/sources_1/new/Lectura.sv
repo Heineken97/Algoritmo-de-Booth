@@ -53,10 +53,11 @@ module Lectura(input clk,reset,a,b,pushButton, output enable);
     begin
         if(pushButton == 1'b1)
         begin
-            counterB <= counter + 1;       
+            enable <=  1'b1; 
+            counterB <= counter + 1;     
         end
-        if(oa && ob)
-        enable <= (counter == counterB)?1'b1:1'b0;
+        //if(oa && ob)
+        //enable <= (counter == counterB)?1'b1:1'b0;
     end
 
     //Antirebote

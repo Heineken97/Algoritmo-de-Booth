@@ -28,7 +28,7 @@ typedef struct packed {
     logic dc;
 }ControlSignals;
 
-module Init(input pushButton,reset ,logic[7:0]a,logic[7:0]b,output logic [3:0]anode, logic [7:0]cathode,logic [15:0] leds );
+module Init(input pushButton,reset ,logic[7:0]a,logic[7:0]b,output logic [7:0]anode, logic [7:0]cathode,logic [15:0] leds );
     ControlSignals controlsigns;
     logic ready,done,clk;;
     logic [2:0] Q_LSB;
