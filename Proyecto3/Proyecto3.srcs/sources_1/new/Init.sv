@@ -30,22 +30,22 @@ typedef struct packed {
 
 module Init(input pushButton,reset ,logic[7:0]a,logic[7:0]b,output logic [7:0]anode, logic [7:0]cathode,logic [15:0] leds );
     ControlSignals controlsigns;
-    logic ready,done,clk;;
-    logic [2:0] Q_LSB;
-    logic [7:0] Y;
+    logic valid,ready,done,clk,reset;
+    logic [1:0] Q_LSB;
+    logic [7:0] state;
+    logic [15:0] Y = 15'd0;
     wire refreshclock;
     wire [2:0] refresh_counter;
     wire [3:0] ONE_DIGIT;
     wire [15:0] bcd_;
 
+
     Lectura L0(.clk(clk),.reset(reset),.a(a),.b(b),.pushButton(pushButton),.enable(ready));
     
     Leds U2(.clk(clk),.a(a),.b(b),.leds(leds));
             
-    Multiplicador Multiplicador(.clk(clk),.reset(reset),.A(a),.B(b),.mult_control(control),.Q_LSB(Q_LSB),.Y(Y),.done(done));
+    top top(.clk(clk),.rst(reset), .valid(valid),.A(a),.B(b),.Q_LSB(Q_LSB),.Y(Y), .state(state));
 
-    Control Controlador(.clk(clk),.done(done),.ready(ready),.reset(reset),.Q(Q_LSB),.load_A(controlsigns.load_A),.load_B(controlsigns.load_B),.load_add(controlsigns.load_add),.shift_HQ_LQ_Q_1(controlsigns.shift_HQ_LQ_Q_1),.add_sub(controlsigns.add_sub),.dc(controlsigns.dc));
-    
     ClockDivider Refreshclock_generator (.clk(clk),.divided_clk(refreshclock));
     
     RefreshCounter Refreshcounter_wrapper(.refresh_clock(refreshclock),.refresh_counter(refresh_counter));
