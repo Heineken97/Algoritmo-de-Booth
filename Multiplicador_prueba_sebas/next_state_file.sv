@@ -15,6 +15,7 @@ module next_state_file(
    logic Z;
    logic [7:0] nextState;
    logic [7:0] cont;
+   logic bool =0;
    
    
    //flip flop registra el estado
@@ -73,11 +74,11 @@ module next_state_file(
     begin
         if(Q_0)
         begin
-            nextState = 8'd4;
+            nextState = 8'd5;
         end
         else
         begin
-            nextState = 8'd5;
+            nextState = 8'd4;
         end
     end
     8'd4: //ADD
@@ -128,8 +129,9 @@ module next_state_file(
         load_A = 0;
      	load_B =0;
      	load_add=0;
-     	shift_HQ_LQ_Q_1=1;
+     	shift_HQ_LQ_Q_1=0;
      	add_sub=0;
+     	bool=1;
      end
    8'd4: //se activa la señal para hacer suma
    begin
@@ -149,17 +151,29 @@ module next_state_file(
    end
    8'd6: //cuando hacer un load B o un shit_HQ_LQ_Q_1 o ninguno
    begin
-     	load_add=1;
+     	if(load_add==0)
+         begin
+            shift_HQ_LQ_Q_1=1; 
+         end
+         else
+         begin
+         shift_HQ_LQ_Q_1=0; 
+         end
         //agregar logica del shift 
         cont = cont -1;   
-        if(cont==0)
-        begin
-            Z =1;
-        end
-        else
-        begin
-        Z =0;
-        end
+        
+   end
+   8'd7:
+   begin
+     if(load_add)
+     begin
+        shift_HQ_LQ_Q_1=1; 
+     end
+     else
+     begin
+     shift_HQ_LQ_Q_1=0; 
+     end
+        
    end
    default: //casoo default, estados que no hacen nada
    begin
@@ -171,4 +185,15 @@ module next_state_file(
    end
    endcase
    end
+always @(posedge clk)
+begin
+if(cont==0)
+        begin
+            Z =1;
+        end
+        else
+        begin
+        Z =0;
+        end
+end
 endmodule

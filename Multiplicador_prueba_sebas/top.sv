@@ -35,7 +35,8 @@ module top(
     input logic [7:0]A,
     input logic [7:0]B,
     output logic [1:0]Q_LSB,
-    output logic [15:0] Y
+    output logic [15:0] Y,
+    output logic [7:0]state
   	//output logic [3:0]anode, 
   	//output logic [7:0]cathode
     );
@@ -44,7 +45,7 @@ module top(
     logic load_add;
     logic shift_HQ_LQ_Q_1;
     logic add_sub;
-    logic [7:0]state;
+    
     //logic [1:0]Q_LSB;
     //logic [15:0] Y;
     //logic [15:0] bcd_;
