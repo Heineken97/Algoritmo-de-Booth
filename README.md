@@ -113,19 +113,14 @@ Estos operando son enviados al circuito antirebote que corresponde a 4 Flip Flop
 
 ## Subsistema conversión de binario a representación BCD
 
-
-### Funcionamiento Fundamental Subsistema conversión de binario a representación BCD
-
-
 ### Diagrama de Bloques Subsistema conversión de binario a representación BCD
-
+![Image text](https://github.com/Heineken97/Algoritmo-de-Booth/blob/main/imagenes/Conventional-BCD-Adder.png)
 
 
 ## Subsistema de despliegue en display de 7 segmentos
 
-### Funcionamiento Fundamental Subsistema de despliegue en display de 7 segmentos
-
 ### Diagrama de Bloques Subsistema de despliegue en display de 7 segmentos
+![Image text](https://github.com/Heineken97/Algoritmo-de-Booth/blob/main/imagenes/Display.png)
 
 
 ## Diagramas de estado de todas las FSM diseñadas
@@ -133,15 +128,23 @@ Estos operando son enviados al circuito antirebote que corresponde a 4 Flip Flop
 ![Image text](https://github.com/Heineken97/Algoritmo-de-Booth/blob/main/imagenes/MaquinaDeEstadosMoore.PNG)
 
 ## Ejemplo y análisis de una simulación funcional del sistema completo
-
+* Sale de Vivado, @moya
 
 ## Análisis de consumo de recursos en la FPGA y del consumo de potencia
-
+* Sale de Vivado, @moya
 
 ## Reporte de velocidades máximas de reloj posibles en el diseño
-
+* Sale de Vivado, @moya
 
 ## Problemas encontrados y soluciones aplicadas
+Se encontraron los siguientes problemas:
+- Falta de secuencialidad en la máquina de estados finitos desarrollada.
+- Falta de funcionalidad por parte del programa Vivado.
+- Mala administración del tiempo para desarrollar adecuadamente el proyecto.
+
+Para los cuales se ejecutaron las siguientes soluciones:
+- Se estudió más la teoría y se logró implementar una máquina de estados que permitiese una buena secuencialidad de instrucciones y estados.
+- Se logró implementar el software de Icarus Verilog para la simulación de algunos testbench cuando Vivado no funcionase.
 
 
 
