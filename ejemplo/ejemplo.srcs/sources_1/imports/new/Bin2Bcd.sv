@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 11/16/2022 06:28:06 PM
+// Create Date: 11/19/2022 02:24:50 PM
 // Design Name: 
-// Module Name: BCD
+// Module Name: Bin2Bcd
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -19,11 +19,8 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-`timescale 1ns / 1ps
 
-
-
-module bin2bcd(
+module Bin2Bcd(
    input [13:0] bin,
    output logic [15:0] bcd
    );
