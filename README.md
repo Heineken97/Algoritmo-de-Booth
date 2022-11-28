@@ -128,26 +128,31 @@ Estos operando son enviados al circuito antirebote que corresponde a 4 Flip Flop
 ![Image text](https://github.com/Heineken97/Algoritmo-de-Booth/blob/main/imagenes/MaquinaDeEstadosMoore.PNG)
 
 ## Ejemplo y análisis de una simulación funcional del sistema completo
-* Sale de Vivado, @moya
+![Image text](https://github.com/Heineken97/Algoritmo-de-Booth/blob/main/imagenes/Capture.PNG)
+
+Se puede observar el comportamiento que tienen los módulos, así como las diferentes variables.
 
 ## Análisis de consumo de recursos en la FPGA y del consumo de potencia
-* Sale de Vivado, @moya
+![Image text](https://github.com/Heineken97/Algoritmo-de-Booth/blob/main/imagenes/potencia.PNG)
+
+Se detalla el total de potencia consumida en Watts [W] por la FPGA.
 
 ## Reporte de velocidades máximas de reloj posibles en el diseño
-* Sale de Vivado, @moya
+[!Image text](https://github.com/Heineken97/Algoritmo-de-Booth/blob/main/imagenes/timming.PNG)
+
+Detalle de las velocidades máximas de reloj.
 
 ## Problemas encontrados y soluciones aplicadas
 Se encontraron los siguientes problemas:
 - Falta de secuencialidad en la máquina de estados finitos desarrollada.
 - Falta de funcionalidad por parte del programa Vivado.
 - Mala administración del tiempo para desarrollar adecuadamente el proyecto.
+- Se realiza un shift de más, por lo que se agregan 0's innecesarios al resultado final de cada multiplicación.
+- La señal de carga (debida a la salida del sumador) no se regula correctamente, por lo que al momento de cargar la suma se suman 2 bits en 0.
 
 Para los cuales se ejecutaron las siguientes soluciones:
 - Se estudió más la teoría y se logró implementar una máquina de estados que permitiese una buena secuencialidad de instrucciones y estados.
 - Se logró implementar el software de Icarus Verilog para la simulación de algunos testbench cuando Vivado no funcionase.
-
-
-
-
-
-
+- Se intentó implementar un plan de trabajo para así regir y desarrollar para un horario fijo.
+- Se intenta cambiar la lógica de la máquina de estados y corregir los chifts, sin embargo no hubo éxito.
+- Se realiza un cambio en la lógica de la salida acarreada por el sumador, no obstante no se consiguió implementar una solución exacta.
