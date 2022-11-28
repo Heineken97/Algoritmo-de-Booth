@@ -138,7 +138,7 @@ Se puede observar el comportamiento que tienen los módulos, así como las difer
 Se detalla el total de potencia consumida en Watts [W] por la FPGA.
 
 ## Reporte de velocidades máximas de reloj posibles en el diseño
-[!Image text](https://github.com/Heineken97/Algoritmo-de-Booth/blob/main/imagenes/timming.PNG)
+![Image text](https://github.com/Heineken97/Algoritmo-de-Booth/blob/main/imagenes/timming.PNG)
 
 Detalle de las velocidades máximas de reloj.
 
